@@ -1,5 +1,7 @@
 import os
 import subprocess
+from google.genai import types
+
 def run_python_file(working_directory, file_path, args=[]): 
     
     full_path = os.path.join(working_directory, file_path)
@@ -34,6 +36,26 @@ def run_python_file(working_directory, file_path, args=[]):
         return output
     except Exception as e:
         return f"Error: executing Python file: {e}"
+    
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs a python file and returns any output that is generated.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="path of file you want to run",
+            ),
+            "args": 
+            types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(type=types.Type.STRING),
+                description="A list of arguments that are needed to pass into the python program you want to run. If the program taks no arguments, pass in an empty list",
+            )
+        },
+    ),
+)    
 #completed_process has:
 
    # completed_process.stdout - the output
